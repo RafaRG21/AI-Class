@@ -1,0 +1,529 @@
+//Ruiz Gudino Jose Rafael 20110374
+package Dijkstra;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
+
+
+public class NodoGrafico {
+    private int x ,y;
+    String nombre;
+    public static final int d = 70;
+
+    private List<NodoGrafico> shortestPath = new LinkedList<>();
+
+    private Integer distance = Integer.MAX_VALUE;
+
+    Map<NodoGrafico, Integer> adjacentNodes = new HashMap<>();
+
+    public NodoGrafico(int x, int y,String nombre) {
+        this.x = x;
+        this.y = y;
+        this.nombre = nombre;
+    }//constructor
+
+
+    public void addDestination(NodoGrafico destination, int distance) {
+        adjacentNodes.put(destination, distance);
+    }
+
+
+
+    public void dibujar(Graphics g){
+        g.setColor(Color.BLACK);
+        g.drawOval(this.x-d/2,this.y-d/2,d,d);
+        g.setColor(Color.BLUE);
+        g.drawString(nombre,x,y);
+    }//dibujar
+
+    public String getNombre() {
+        return nombre;
+    }//getNombre
+
+    public void setNombre(String x) {
+        this.nombre = x;
+    }//setNombre
+
+    public int getX() {
+        return x;
+    }//getX
+
+    public void setX(int x) {
+        this.x = x;
+    }//setX
+
+    public int getY() {
+        return y;
+    }//getY
+
+    public void setY(int y) {
+        this.y = y;
+    }//setY
+
+    public List<NodoGrafico> getShortestPath() {
+        return shortestPath;
+    }
+
+    public void setShortestPath(List<NodoGrafico> shortestPath) {
+        this.shortestPath = shortestPath;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public Map<NodoGrafico, Integer> getAdjacentNodes() {
+        return adjacentNodes;
+    }
+
+    public void setAdjacentNodes(Map<NodoGrafico, Integer> adjacentNodes) {
+        this.adjacentNodes = adjacentNodes;
+    }
+}//NodoGrafico
+
+
+
+public class AristaGrafico {
+    private int x1,y1,x2,y2;
+    private String dest, name, src;
+    private int peso;
+    private List<AristaGrafico> shortestPath = new LinkedList<>();
+
+    private Integer distance = Integer.MAX_VALUE;
+
+    Map<AristaGrafico, Integer> adjacentNodes = new HashMap<>();
+
+
+    public AristaGrafico(String name) {
+        this.name = name;
+    }//constructor
+    public AristaGrafico(int x1, int y1, int x2, int y2, int peso, String src, String dest ){
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.peso = peso;
+        this.src = src;
+        this.dest = dest;
+    }//constructor
+    public void addDestination(AristaGrafico dest, int peso) {
+        adjacentNodes.put(dest, peso);
+    }
+    public void dibujarArista(Graphics g,Color c){
+        g.setColor(c);
+        g.drawLine(x1,y1,x2,y2);
+        g.setColor(Color.RED);
+        if (x1 > x2 && y1 > y2)
+            g.drawString(String.valueOf(peso),x1 - Math.abs((x1 - x2)/2), y1 - Math.abs((y1 - y2)/2));
+        if (x1 < x2 && y1 < y2)
+            g.drawString(String.valueOf(peso),x2 - Math.abs((x1 - x2)/2), y2 - Math.abs((y1 - y2)/2));
+        if (x1 < x2 && y1 > y2)
+            g.drawString(String.valueOf(peso),x2 - Math.abs((x1 - x2)/2), y1 - Math.abs((y1 - y2)/2));
+        if (x1 > x2 && y1 < y2)
+            g.drawString(String.valueOf(peso),x1 - Math.abs((x1 - x2)/2), y2 - Math.abs((y1 - y2)/2));
+
+
+    }//dibujarArista
+
+    public int getX1() {
+        return x1;
+    }//getX1
+
+    public void setX1(int x1) {
+        this.x1 = x1;
+    }//setX1
+
+    public int getY1() {
+        return y1;
+    }//getY1
+
+    public void setY1(int y1) {
+        this.y1 = y1;
+    }//setY1
+
+    public int getX2() {
+        return x2;
+    }//getX2
+
+    public void setX2(int x2) {
+        this.x2 = x2;
+    }//setX2
+
+    public int getY2() {
+        return y2;
+    }//getY2
+
+    public void setY2(int y2) {
+        this.y2 = y2;
+    }//setY2
+    public int getPeso() {
+        return peso;
+    }//getPeso
+
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }//setPeso
+
+    public String getDest() {
+        return dest;
+    }//getDest
+
+    public void setDest(String dest) {
+        this.dest = dest;
+    }//setDest
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<AristaGrafico> getShortestPath() {
+        return shortestPath;
+    }
+
+
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
+    }
+
+    public Map<AristaGrafico, Integer> getAdjacentNodes() {
+        return adjacentNodes;
+    }
+
+
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
+    }
+
+    public void setShortestPath(List<AristaGrafico> shortestPath) {
+        this.shortestPath = shortestPath;
+    }
+
+    public void setAdjacentNodes(Map<AristaGrafico, Integer> adjacentNodes) {
+        this.adjacentNodes = adjacentNodes;
+    }
+}//AristaGrafico
+
+
+
+public class Graph {
+
+    private Set<NodoGrafico> nodes = new HashSet<>();
+
+    public void addNode(NodoGrafico nodeA) {
+        nodes.add(nodeA);
+    }
+
+    public Set<NodoGrafico> getNodes() {
+        return nodes;
+    }
+
+    public void setNodes(Set<NodoGrafico> nodes) {
+        this.nodes = nodes;
+    }
+
+    // getters and setters
+}//Graph
+
+
+
+public class Lienzo extends JPanel implements MouseListener, MouseMotionListener {
+
+    private ArrayList<NodoGrafico> arrayNodosG;
+    private ArrayList<NodoGrafico> nodos;
+    private ArrayList<NodoGrafico> nodesPath;
+    private ArrayList<AristaGrafico> aristaGraficos;
+    private ArrayList<AristaGrafico> aristaPath;
+
+
+    private Point p1, p2;
+    private NodoGrafico nodoMover;
+    private boolean buttonPressed = false;
+    private int iNodo;
+    Graph graph = new Graph();
+    JButton obtainAEM;
+    String src, dest;
+    List<AristaGrafico> kruskal;
+
+
+
+    public Lienzo(){
+        this.arrayNodosG = new ArrayList<>();
+        this.aristaGraficos = new ArrayList<>();
+        this.aristaPath = new ArrayList<>();
+        this.nodesPath = new ArrayList<>();
+        this.nodos = new ArrayList<>();
+        this.addMouseListener(this);
+        this.addMouseMotionListener(this);
+         this.obtainAEM = new JButton("Correr Dijkstra");
+        this.add(obtainAEM);
+        this.obtainAEM.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String source,destination;
+                int weight = 0;
+                int src=0, dest=0, cont=0;
+                source = JOptionPane.showInputDialog("Ingresar nodo origen:");
+                destination = JOptionPane.showInputDialog("Ingresar nodo destino");
+                for (NodoGrafico nodo : nodos){
+                    if (nodo.getNombre().equals(source)) {
+                        src = cont;
+                    }
+                    if (nodo.getNombre().equals(destination)) {
+                        dest = cont;
+                    }
+                    cont++;
+                }
+                graph = Dijkstra.calculateShortestPathFromSource(graph,nodos.get(src),nodos.get(dest));
+                System.out.println("Src: "+src+" "+nodos.get(src)+" Dest: "+dest+" "+nodos.get(dest));
+                System.out.println("PATH:");
+                nodesPath.addAll(Dijkstra.Camino);
+                for (NodoGrafico nodo : nodesPath){
+                    System.out.println(nodo.nombre);
+
+                }
+                System.out.println("PATH arista:");
+
+                for(int i=0;i<nodesPath.size()-1;i++){
+                    for (AristaGrafico arista : aristaGraficos){
+                        if (arista.getSrc().equals(nodesPath.get(i).getNombre()) && arista.getDest().equals(nodesPath.get(i+1).getNombre())){
+                            aristaPath.add(arista);
+                            weight += arista.getPeso();
+                            System.out.println(arista.getSrc()+ " - "+arista.getDest() );
+                        }
+                        else if (arista.getX1()==nodesPath.get(i+1).getX() && arista.getY1()==nodesPath.get(i+1).getY() && arista.getX2()==nodesPath.get(i).getX() && arista.getY2()==nodesPath.get(i).getY()){
+                            System.out.println(arista.getSrc()+ " - "+arista.getDest() );
+                            aristaPath.add(arista);
+                        }
+                    }//for arista
+                }//for nodo
+                System.out.println("Arista path size: "+aristaPath.size()+" Node path size: "+nodesPath.size());
+
+                buttonPressed = true;
+                repaint();
+
+                String mensaje = "Camino más corto:\n";
+                for (NodoGrafico nodo : nodesPath)
+                    mensaje += nodo.nombre + " - ";
+                mensaje += "\n"+"Costo del camino: " + String.valueOf(weight);
+                weight = 0;
+                JOptionPane.showMessageDialog(Lienzo.this, mensaje, "Algoritmo ejecutado", JOptionPane.INFORMATION_MESSAGE);
+
+
+            }
+        });//addActionListener
+
+    }//constructor
+
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+
+        for (NodoGrafico nodoGrafico : arrayNodosG)
+            nodoGrafico.dibujar(g);
+
+        for (AristaGrafico arista : aristaGraficos)
+            arista.dibujarArista(g,Color.BLACK);
+        if(buttonPressed){
+            for (AristaGrafico arista : aristaPath)
+                arista.dibujarArista(g,Color.green);
+            buttonPressed = false;
+            aristaPath.clear();
+            nodesPath.clear();
+        }
+
+    }//paint
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON1){
+            String nombreNodo = JOptionPane.showInputDialog("Ingresar nombre del nodo:");
+            this.arrayNodosG.add(new NodoGrafico(e.getX(),e.getY(),nombreNodo));
+            this.nodos.add(new NodoGrafico(e.getX(),e.getY(),nombreNodo));
+           repaint();
+        }
+
+        if (e.getButton() == MouseEvent.BUTTON3){
+            for (NodoGrafico nodo : arrayNodosG){
+                if (new Rectangle(nodo.getX() - NodoGrafico.d/2,nodo.getY() - NodoGrafico.d/2,NodoGrafico.d,NodoGrafico.d).contains(e.getPoint())){
+                    if (p1 == null){
+                        p1 = new Point(nodo.getX(),nodo.getY());
+                        src = nodo.getNombre();
+                    }else{
+                        p2 = new Point(nodo.getX(),nodo.getY());
+                        dest = nodo.getNombre();
+                        String input;
+                        int peso = 0;
+                        do {
+                            input = JOptionPane.showInputDialog("Ingresar peso de la arista:");
+                            if (input.matches("^[0-9]*$")) {
+                                peso = Integer.parseInt(input);
+                               this.aristaGraficos.add(new AristaGrafico(p1.x,p1.y,p2.x,p2.y,peso,src,dest));
+                                System.out.println("Source: "+src+" Dest: "+dest);
+                                int posSrc=0, posDest=0,i = 0;
+                                for (NodoGrafico nodeAux : nodos){
+                                    if(nodeAux.getNombre().equals(src))
+                                        posSrc = i;
+                                    if(nodeAux.getNombre().equals(dest))
+                                        posDest = i;
+                                    i++;
+                                }
+                                nodos.get(posSrc).addDestination(nodos.get(posDest),peso);
+                                nodos.get(posDest).addDestination(nodos.get(posSrc),peso);
+
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Ingrese sólo números", "ERROR", JOptionPane.WARNING_MESSAGE);
+                            }
+                        } while (!input.matches("^[0-9]*$"));
+                        repaint();
+                        p1 = p2 = null;
+                    }
+                }
+            }
+        }
+    }//mouseClicked
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int iN = 0;
+        for (NodoGrafico nodo : arrayNodosG){
+            if(new Rectangle(nodo.getX() - NodoGrafico.d/2,nodo.getY() - NodoGrafico.d/2,NodoGrafico.d,NodoGrafico.d).contains(e.getPoint())){
+                nodoMover = nodo;
+                iNodo = iN;
+                break;
+            }
+            iN++;
+        }
+    }//mousePressed
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        nodoMover = null;
+        iNodo = -1;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        if (nodoMover != null){
+            this.arrayNodosG.set(iNodo,new NodoGrafico(e.getX(),e.getY(),nodoMover.nombre));
+            int iA = 0;
+            for (AristaGrafico arista : aristaGraficos){
+                if (new Rectangle(arista.getX1() - NodoGrafico.d/2, arista.getY1() - NodoGrafico.d/2,NodoGrafico.d,NodoGrafico.d).contains(e.getPoint())){
+                    this.aristaGraficos.set(iA,new AristaGrafico(e.getX(),e.getY(),arista.getX2(),arista.getY2(),arista.getPeso(),arista.getSrc(),arista.getDest()));
+                } else if (new Rectangle(arista.getX2() - NodoGrafico.d/2, arista.getY2() - NodoGrafico.d/2,NodoGrafico.d,NodoGrafico.d).contains(e.getPoint())){
+                    this.aristaGraficos.set(iA,new AristaGrafico(arista.getX1(),arista.getY1(),e.getX(),e.getY(),arista.getPeso(),arista.getSrc(),arista.getDest()));
+                }
+                iA++;
+            }//for
+        }
+        repaint();
+    }//mouseDragged
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+}//Lienzo
+
+
+
+public class Dijkstra {
+    static List<NodoGrafico> Camino = new ArrayList<NodoGrafico>();
+    public static Graph calculateShortestPathFromSource(Graph graph, NodoGrafico source,NodoGrafico dest) {
+        source.setDistance(0);
+
+        Set<NodoGrafico> settledNodes = new HashSet<>();
+        Set<NodoGrafico> unsettledNodes = new HashSet<>();
+
+        unsettledNodes.add(source);
+
+        while (unsettledNodes.size() != 0) {
+            NodoGrafico currentNode = getLowestDistanceNode(unsettledNodes);
+            unsettledNodes.remove(currentNode);
+            for (Map.Entry<NodoGrafico, Integer> adjacencyPair :
+                    currentNode.getAdjacentNodes().entrySet()) {
+                NodoGrafico adjacentNode = adjacencyPair.getKey();
+                Integer edgeWeight = adjacencyPair.getValue();
+                if (!settledNodes.contains(adjacentNode)) {
+                    CalculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
+                    unsettledNodes.add(adjacentNode);
+                }
+            }
+            settledNodes.add(currentNode);
+            if(currentNode.getNombre().equals(dest.getNombre())) {
+                Camino = currentNode.getShortestPath();
+                Camino.add(currentNode);
+            }
+
+        }
+        return graph;
+    }
+
+    private static NodoGrafico getLowestDistanceNode(Set<NodoGrafico> unsettledNodes) {
+        NodoGrafico lowestDistanceNode = null;
+        int lowestDistance = Integer.MAX_VALUE;
+        for (NodoGrafico node : unsettledNodes) {
+            int nodeDistance = node.getDistance();
+            if (nodeDistance < lowestDistance) {
+                lowestDistance = nodeDistance;
+                lowestDistanceNode = node;
+            }
+        }
+        return lowestDistanceNode;
+    }
+
+    private static void CalculateMinimumDistance(NodoGrafico evaluationNode,
+                                                 Integer edgeWeigh, NodoGrafico sourceNode) {
+        Integer sourceDistance = sourceNode.getDistance();
+        if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
+            evaluationNode.setDistance(sourceDistance + edgeWeigh);
+            LinkedList<NodoGrafico> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+            shortestPath.add(sourceNode);
+            evaluationNode.setShortestPath(shortestPath);
+        }
+    }
+
+    public static void main(String[] args) {
+        JFrame window = new JFrame("Algoritmo de Kruskal 20110374");
+        window.add(new Lienzo());
+        window.setSize(700,700);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(true);
+    }
+}//Dijkstra
